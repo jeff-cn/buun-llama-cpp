@@ -154,9 +154,9 @@ std::pair<ggml_tensor *, ggml_tensor *> llm_build_delta_net_base::build_delta_ne
     cb(attn, "attn", il);
 
     ggml_tensor * identity;
-    identity = ggml_view_1d(ctx0, attn, CS, 0);
-    identity = ggml_fill   (ctx0, identity, 1.0f);
-    identity = ggml_diag   (ctx0, identity);
+    identity = ggml_new_tensor_1d(ctx0, GGML_TYPE_F32, CS);
+    identity = ggml_fill(ctx0, identity, 1.0f);
+    identity = ggml_diag(ctx0, identity);
 
     ggml_tensor * lhs = ggml_add(ctx0, attn, identity);
     cb(lhs, "dnet_add_ch_lhs", il);
